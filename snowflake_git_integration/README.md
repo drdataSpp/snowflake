@@ -123,6 +123,16 @@ EXECUTE IMMEDIATE FROM @snowflake_repo/branches/snowflake_git_integration/snowfl
 
 *File Name: `git_master_scripts/deploy_master_test_1.sql`*
 
+#### In the above SQL:
+- ***EXECUTE IMMEDIATE FROM*** - is the SnowSQL to run all SQLs present in a .sql file
+- ***@snowflake_repo*** - is the Git Repo object that we created earlier.
+- ***@snowflake_repo/branches*** - Under this path, we will have all branches under the repo we created earlier. Master/ Main branch + feature branches.
+- ***@snowflake_repo/branches/snowflake_git_integration*** - Anything other than master or main after **branches/** denotes that a SQL will be deployed from a feature branch and not master/ main branch.
+  - For NON-PROD deployments, use ***@snowflake_repo/branches/<feature_branch_name>***
+  - For PROD deployments, always use ***@snowflake_repo/branches/master* or *@snowflake_repo/branches/main***     
+- ***@snowflake_repo/branches/snowflake_git_integration/snowflake_git_integration/tables*** - Here, snowflake_git_integration/ & tables/ are directory structure present in your feature or master branch.
+- ***@snowflake_repo/branches/snowflake_git_integration/snowflake_git_integration/tables/test_dbt.dbt.call_center.sql*** - The .sql file that holds the SQL we want to be ran in Snowflake Data Platform.
+
 ---
 
 ## Deploying SQL Scripts from GitHub
