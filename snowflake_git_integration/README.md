@@ -62,7 +62,18 @@ CREATE OR REPLACE GIT REPOSITORY snowflake_repo
   COMMENT = 'Git repository for Snowflake SQLs';
 ```
 
-### 6. Fetch Data from the Git Repository
+### 6. Querying the Git Repository
+
+Viewing available files:
+
+```sql
+SHOW GIT BRANCHES IN TEST_DB.GIT.SNOWFLAKE_REPO;
+
+--Lists all files undert that sub-directory from master branch
+LS @TEST_DB.GIT.SNOWFLAKE_REPO/branches/master/<sub_dir>;
+```
+
+### 7. Fetch Data from the Git Repository
 
 Fetch the data from your repository:
 
