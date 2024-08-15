@@ -1,0 +1,3 @@
+USE SCHEMA <>; -- Schema where git repo was created
+
+EXECUTE IMMEDIATE FROM @snowflake_repo/branches/snowflake_git_integration/snowflake_git_integration/git_master_scripts/deploy_master_test_1.sql;
