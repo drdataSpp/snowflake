@@ -149,10 +149,22 @@ ALTER GIT REPOSITORY SNOWFLAKE_REPO;
 
 Finally, run the master deployment script:
 
+Example, NON-PROD deployment:
+
 ```sql
 USE SCHEMA TEST_DB.GIT; /* Schema where git object was created */
 
 EXECUTE IMMEDIATE FROM @snowflake_repo/branches/snowflake_git_integration/snowflake_git_integration/git_master_scripts/deploy_master_test_1.sql;
+```
+
+Example, PROD deployment:
+
+```sql
+USE SCHEMA PROD_DB.GIT; /* Schema where git object was created */
+
+ALTER GIT REPOSITORY SNOWFLAKE_REPO;
+
+EXECUTE IMMEDIATE FROM @snowflake_repo/branches/master/snowflake_git_integration/git_master_scripts/deploy_master_test_1.sql;
 ```
 
 ---
