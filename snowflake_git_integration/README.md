@@ -142,7 +142,7 @@ EXECUTE IMMEDIATE FROM @snowflake_repo/branches/snowflake_git_integration/snowfl
 Before deploying, ensure you have the latest changes from your GitHub repository:
 
 ```sql
-ALTER GIT REPOSITORY SNOWFLAKE_REPO;
+ALTER GIT REPOSITORY TEST_DB.GIT.snowflake_repo FETCH;
 ```
 
 ### 2. Execute the Master Deployment Script
@@ -162,7 +162,7 @@ Example, PROD deployment:
 ```sql
 USE SCHEMA PROD_DB.GIT; /* Schema where git object was created */
 
-ALTER GIT REPOSITORY SNOWFLAKE_REPO;
+ALTER GIT REPOSITORY TEST_DB.GIT.snowflake_repo FETCH;
 
 EXECUTE IMMEDIATE FROM @snowflake_repo/branches/master/snowflake_git_integration/git_master_scripts/deploy_master_test_1.sql;
 ```
