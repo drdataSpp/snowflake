@@ -162,7 +162,7 @@ Example, PROD deployment:
 ```sql
 USE SCHEMA PROD_DB.GIT; /* Schema where git object was created */
 
-ALTER GIT REPOSITORY TEST_DB.GIT.snowflake_repo FETCH;
+ALTER GIT REPOSITORY PROD_DB.GIT.snowflake_repo FETCH;
 
 EXECUTE IMMEDIATE FROM @snowflake_repo/branches/master/snowflake_git_integration/git_master_scripts/deploy_master_test_1.sql;
 ```
