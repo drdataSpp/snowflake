@@ -1,0 +1,614 @@
+name: super_store_sales_performance
+tables:
+  - name: DIM_CUSTOMER
+    base_table:
+      database: SUPER_STORE
+      schema: GOLD
+      table: DIM_CUSTOMER
+    dimensions:
+      - name: CUSTOMER_KEY
+        expr: CUSTOMER_KEY
+        data_type: VARCHAR(40)
+        synonyms:
+          - customer_key
+      - name: CUSTOMER_ID
+        expr: CUSTOMER_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - CG-12520
+          - DV-13045
+          - SO-20335
+        description: Unique identifier for a customer in the system.
+        synonyms:
+          - customer_number
+          - client_id
+          - account_id
+          - user_id
+          - patron_id
+          - subscriber_id
+      - name: CUSTOMER_NAME
+        expr: CUSTOMER_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Claire Gute
+          - Darrin Van Huff
+          - Sean O'Donnell
+        description: The full name of the customer.
+        synonyms:
+          - customer_title
+          - client_name
+          - account_holder
+          - patron_name
+          - buyer_name
+          - client_title
+          - account_name
+      - name: SEGMENT
+        expr: SEGMENT
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Consumer
+          - Corporate
+          - Home Office
+        description: The type of customer segment, indicating whether the customer is an individual consumer, a corporate entity, or a home office.
+        synonyms:
+          - category
+          - classification
+          - group
+          - section
+          - division
+          - subset
+          - portion
+          - part
+          - class
+    time_dimensions:
+      - name: LOAD_DATE
+        expr: LOAD_DATE
+        data_type: TIMESTAMP_LTZ(9)
+        sample_values:
+          - 2025-06-11T08:25:31.238+0000
+        description: The date and time when the customer data was loaded into the system.
+        synonyms:
+          - load_timestamp
+          - data_load_date
+          - load_datetime
+          - data_insert_date
+          - data_refresh_date
+          - data_update_date
+          - data_load_timestamp
+          - load_date_time
+    primary_key:
+      columns:
+        - CUSTOMER_KEY
+  - name: DIM_GEOGRAPHY
+    base_table:
+      database: SUPER_STORE
+      schema: GOLD
+      table: DIM_GEOGRAPHY
+    dimensions:
+      - name: GEOGRAPHY_KEY
+        expr: GEOGRAPHY_KEY
+        data_type: VARCHAR(40)
+        sample_values:
+          - 1924835eff58a79abc40994f0cf6145b4432c051
+          - 9e96f55872c52906820a7df72b7ec668494512cb
+          - 8bf65a735f29e0acd3fe60d75c7d40c8fd19b37e
+        description: Unique identifier for a geographic location, such as a country, region, city, or postal code, used to categorize and analyze data by geographic area.
+        synonyms:
+          - location_id
+          - geographic_code
+          - geo_id
+          - territory_key
+          - area_code
+          - region_id
+          - site_id
+      - name: COUNTRY
+        expr: COUNTRY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - United States
+        description: The country in which a customer, supplier, or other business entity is located.
+        synonyms:
+          - nation
+          - land
+          - territory
+          - state
+          - republic
+          - commonwealth
+          - homeland
+          - nationality
+      - name: STATE
+        expr: STATE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Kentucky
+          - California
+          - Florida
+        description: The state in which a customer or business is located, used to analyze and report on geographic trends and patterns.
+        synonyms:
+          - province
+          - region
+          - territory
+          - county
+          - parish
+          - prefecture
+          - administrative_division
+          - geographic_area
+      - name: CITY
+        expr: CITY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Henderson
+          - Los Angeles
+          - Fort Lauderdale
+        description: The city where a customer is located or a business operates.
+        synonyms:
+          - town
+          - municipality
+          - metropolis
+          - urban_area
+          - municipality_name
+          - city_name
+          - urban_center
+          - populated_place
+      - name: REGION
+        expr: REGION
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - South
+          - West
+          - Central
+        description: Geographic region where a customer or business is located.
+        synonyms:
+          - area
+          - territory
+          - zone
+          - district
+          - province
+          - sector
+          - locality
+          - geographic_area
+          - administrative_division
+      - name: POSTAL_CODE
+        expr: POSTAL_CODE
+        data_type: NUMBER(5,0)
+        synonyms:
+          - zip
+          - zip_code
+          - zip code
+    time_dimensions:
+      - name: LOAD_DATE
+        expr: LOAD_DATE
+        data_type: TIMESTAMP_LTZ(9)
+        sample_values:
+          - 2025-06-11T08:25:39.571+0000
+        description: Date and time when the geographic data was loaded into the system.
+        synonyms:
+          - load_timestamp
+          - data_load_date
+          - data_refresh_date
+          - data_update_date
+          - data_insert_date
+          - data_load_timestamp
+          - refresh_date
+          - update_date
+          - insert_date
+          - data_load_time
+    facts: []
+    primary_key:
+      columns:
+        - GEOGRAPHY_KEY
+  - name: DIM_ORDER
+    base_table:
+      database: SUPER_STORE
+      schema: GOLD
+      table: DIM_ORDER
+    dimensions:
+      - name: ORDER_KEY
+        expr: ORDER_KEY
+        data_type: VARCHAR(40)
+        sample_values:
+          - b6b546e17a3e924179aa617ee7003132f2efae99
+          - ff628dbc2090663fcf8fba9625b751bef33cef0b
+          - af6d2b9b79b1b5c8463da5d19b1830d933b8e571
+        description: Unique identifier for an order.
+        synonyms:
+          - order_id_key
+          - order_identifier
+          - order_number_key
+          - purchase_key
+          - transaction_key
+      - name: ORDER_ID
+        expr: ORDER_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - CA-2016-152156
+          - CA-2016-138688
+          - US-2015-108966
+        description: Unique identifier for each order, in the format 'Country-YYYY-Sequence Number', where Country is the two-letter code for the country where the order was placed, YYYY is the year the order was placed, and Sequence Number is a unique identifier for the order within that country and year.
+        synonyms:
+          - order_number
+          - purchase_id
+          - transaction_id
+          - order_reference
+          - order_code
+          - purchase_order_number
+      - name: SHIP_MODE
+        expr: SHIP_MODE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Second Class
+          - Standard Class
+          - First Class
+        description: The shipping method used to deliver the order, indicating the level of service and speed of delivery.
+        synonyms:
+          - shipping_method
+          - delivery_type
+          - transportation_mode
+          - freight_mode
+          - logistics_mode
+          - dispatch_method
+    time_dimensions:
+      - name: ORDER_DATE
+        expr: ORDER_DATE
+        data_type: DATE
+        sample_values:
+          - '2016-11-08'
+          - '2016-06-12'
+          - '2015-10-11'
+        description: The date on which the order was placed.
+        synonyms:
+          - order_creation_date
+          - order_placement_date
+          - order_timestamp
+          - purchase_date
+          - transaction_date
+          - order_initiation_date
+      - name: SHIP_DATE
+        expr: SHIP_DATE
+        data_type: DATE
+        sample_values:
+          - '2016-11-11'
+          - '2016-06-16'
+          - '2015-10-18'
+        description: The date on which the order was shipped to the customer.
+        synonyms:
+          - dispatch_date
+          - delivery_date
+          - shipment_date
+          - send_date
+          - transport_date
+          - departure_date
+      - name: LOAD_DATE
+        expr: LOAD_DATE
+        data_type: TIMESTAMP_LTZ(9)
+        sample_values:
+          - 2025-06-11T08:25:36.372+0000
+        description: The date and time when the order data was loaded into the system.
+        synonyms:
+          - load_timestamp
+          - data_load_date
+          - load_datetime
+          - data_insertion_date
+          - data_upload_date
+          - data_load_time
+    primary_key:
+      columns:
+        - ORDER_KEY
+  - name: DIM_PRODUCT
+    base_table:
+      database: SUPER_STORE
+      schema: GOLD
+      table: DIM_PRODUCT
+    dimensions:
+      - name: PRODUCT_KEY
+        expr: PRODUCT_KEY
+        data_type: VARCHAR(40)
+        sample_values:
+          - a495b0ca34900cb9fbd2552aa46d434b45229be0
+          - 2525f34f846bd8028599c79e5360e9edf1fe5e62
+          - 16cb1268829110c93397217cfd17efad2624435b
+        description: Unique identifier for a product in the catalog, used to track and analyze product-specific data across various business processes.
+        synonyms:
+          - product_id_key
+          - product_identifier
+          - product_code
+          - product_unique_id
+          - product_reference
+      - name: PRODUCT_ID
+        expr: PRODUCT_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - FUR-BO-10001798
+          - FUR-CH-10000454
+          - OFF-LA-10000240
+        description: Unique identifier for a product in the catalog.
+        synonyms:
+          - product_code
+          - product_number
+          - item_id
+          - product_identifier
+          - sku
+          - product_reference
+      - name: PRODUCT_NAME
+        expr: PRODUCT_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Bush Somerset Collection Bookcase
+          - Hon Deluxe Fabric Upholstered Stacking Chairs, Rounded Back
+          - Self-Adhesive Address Labels for Typewriters by Universal
+        description: The name of the product being sold, including the brand, model, and descriptive text.
+        synonyms:
+          - product_title
+          - item_name
+          - product_description
+          - item_description
+          - product_label
+      - name: CATEGORY
+        expr: CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Furniture
+          - Office Supplies
+          - Technology
+        description: 'The category of the product, which can be one of the following: Furniture, Office Supplies, or Technology.'
+        synonyms:
+          - type
+          - classification
+          - group
+          - genre
+          - kind
+          - class
+          - product_type
+          - product_group
+          - product_category
+          - product_classification
+      - name: SUB_CATEGORY
+        expr: SUB_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Bookcases
+          - Chairs
+          - Labels
+        description: The category of product that is one level more specific than the main product category, such as Bookcases, Chairs, and Labels, which are sub-categories of a higher-level category like Furniture or Office Supplies.
+        synonyms:
+          - subcategory_name
+          - subcategory_type
+          - subcategory_label
+          - subcategory_code
+          - subcategory_description
+          - subcategory_classification
+    time_dimensions:
+      - name: LOAD_DATE
+        expr: LOAD_DATE
+        data_type: TIMESTAMP_LTZ(9)
+        sample_values:
+          - 2025-06-11T08:25:33.871+0000
+        description: The date and time when the product data was loaded into the system.
+        synonyms:
+          - load_timestamp
+          - data_load_date
+          - load_datetime
+          - data_insert_date
+          - data_refresh_date
+          - data_update_date
+          - data_load_timestamp
+    primary_key:
+      columns:
+        - PRODUCT_KEY
+  - name: FCT_ORDER_SALES
+    base_table:
+      database: SUPER_STORE
+      schema: GOLD
+      table: FCT_ORDER_SALES
+    dimensions:
+      - name: ORDER_DETAIL_KEY
+        expr: ORDER_DETAIL_KEY
+        data_type: VARCHAR(40)
+        sample_values:
+          - 8dee3992b15bface50e2377536620cdc7b1fe938
+          - 710821d0dbba26615b46581ce20a225619125206
+          - 6ef5bf28f54dd725b2a67c419aa3c8c03353591e
+        description: Unique identifier for each order detail record, used to track and manage individual items within an order.
+        synonyms:
+          - order_line_id
+          - order_item_key
+          - order_detail_id
+          - sales_order_detail_key
+          - order_line_number
+      - name: ORDER_KEY
+        expr: ORDER_KEY
+        data_type: VARCHAR(40)
+        sample_values:
+          - b6b546e17a3e924179aa617ee7003132f2efae99
+          - ff628dbc2090663fcf8fba9625b751bef33cef0b
+          - af6d2b9b79b1b5c8463da5d19b1830d933b8e571
+        description: Unique identifer for an order.
+        synonyms:
+          - order_id
+          - purchase_key
+          - sales_order_number
+          - transaction_id
+          - order_reference
+      - name: CUSTOMER_KEY
+        expr: CUSTOMER_KEY
+        data_type: VARCHAR(40)
+        sample_values:
+          - ea4b256a655a0d35d3035db79c1d0f67a3705129
+          - ade0d8515f12e999036857f598700bf505e217cf
+          - 2412f8fa92725ba53d6d4ab622d90c5092206ec8
+        description: Unique identifer for the customer who made the order.
+        synonyms:
+          - customer_id
+          - client_id
+          - buyer_id
+          - account_number
+          - client_identifier
+          - customer_identifier
+          - patron_id
+          - shopper_id
+      - name: PRODUCT_KEY
+        expr: PRODUCT_KEY
+        data_type: VARCHAR(40)
+        sample_values:
+          - a495b0ca34900cb9fbd2552aa46d434b45229be0
+          - 2525f34f846bd8028599c79e5360e9edf1fe5e62
+          - 16cb1268829110c93397217cfd17efad2624435b
+        description: Unique identifier for the product being sold.
+        synonyms:
+          - item_id
+          - product_id
+          - product_identifier
+          - item_identifier
+          - product_code
+          - sku
+          - stock_keeping_unit
+      - name: GEOGRAPHY_KEY
+        expr: GEOGRAPHY_KEY
+        data_type: VARCHAR(40)
+        sample_values:
+          - 1924835eff58a79abc40994f0cf6145b4432c051
+          - 9e96f55872c52906820a7df72b7ec668494512cb
+          - 8bf65a735f29e0acd3fe60d75c7d40c8fd19b37e
+        description: Unique identifier for the geographic location where the order was made, such as a store or region.
+        synonyms:
+          - location_key
+          - region_key
+          - area_key
+          - territory_key
+          - geographic_area
+          - geo_id
+          - location_id
+          - area_id
+          - region_id
+      - name: RECORD_SOURCE
+        expr: RECORD_SOURCE
+        data_type: VARCHAR(17)
+        sample_values:
+          - SUPER_STORE_SALES
+        description: The source system or application where the sales record originated from.
+        synonyms:
+          - data_origin
+          - data_source
+          - origin_system
+          - source_system
+          - data_provenance
+          - system_of_record
+    time_dimensions:
+      - name: LOAD_DATE
+        expr: LOAD_DATE
+        data_type: TIMESTAMP_LTZ(9)
+        sample_values:
+          - 2025-06-11T08:25:41.829+0000
+        description: Date and time when the sales data was loaded into the system.
+        synonyms:
+          - load_timestamp
+          - data_load_date
+          - load_datetime
+          - data_insert_date
+          - data_refresh_date
+          - data_update_date
+          - data_load_timestamp
+          - load_date_time
+    facts:
+      - name: SALES
+        expr: SALES
+        data_type: NUMBER(9,4)
+        sample_values:
+          - '261.9600'
+          - '731.9400'
+          - '14.6200'
+        description: The total sales amount for each order.
+        synonyms:
+          - revenue
+          - turnover
+          - income
+          - earnings
+          - proceeds
+          - gross_sales
+          - total_sales
+          - sales_amount
+          - sales_value
+      - name: QUANTITY
+        expr: QUANTITY
+        data_type: NUMBER(2,0)
+        sample_values:
+          - '2'
+          - '3'
+          - '5'
+        description: The quantity of items sold in each order.
+        synonyms:
+          - amount
+          - count
+          - volume
+          - number_of_items
+          - total_items
+          - item_count
+          - quantity_ordered
+          - units_sold
+      - name: DISCOUNT
+        expr: DISCOUNT
+        data_type: NUMBER(3,2)
+        sample_values:
+          - '0.00'
+          - '0.45'
+          - '0.20'
+        description: The percentage amount deducted from the original price of an order, representing a reduction in the amount the customer paid.
+        synonyms:
+          - rebate
+          - discount_percentage
+          - price_reduction
+          - markdown
+          - price_cut
+          - concession
+          - discount_amount
+          - price_discount
+      - name: PROFIT
+        expr: PROFIT
+        data_type: NUMBER(8,4)
+        sample_values:
+          - '41.9136'
+          - '219.5820'
+          - '6.8714'
+        description: The profit earned from each order, calculated as the difference between the revenue generated and the cost incurred.
+        synonyms:
+          - gain
+          - earnings
+          - net_income
+          - revenue
+          - surplus
+          - margin
+          - income
+          - return_on_investment
+relationships:
+  - name: 'FK_Fact_Customer '
+    join_type: inner
+    relationship_type: many_to_one
+    left_table: FCT_ORDER_SALES
+    relationship_columns:
+      - left_column: CUSTOMER_KEY
+        right_column: CUSTOMER_KEY
+    right_table: DIM_CUSTOMER
+  - name: FK_Fact_Geography
+    join_type: inner
+    relationship_type: many_to_one
+    left_table: FCT_ORDER_SALES
+    relationship_columns:
+      - left_column: GEOGRAPHY_KEY
+        right_column: GEOGRAPHY_KEY
+    right_table: DIM_GEOGRAPHY
+  - name: FK_Fact_Order
+    join_type: inner
+    relationship_type: many_to_one
+    left_table: FCT_ORDER_SALES
+    relationship_columns:
+      - left_column: ORDER_KEY
+        right_column: ORDER_KEY
+    right_table: DIM_ORDER
+  - name: FK_Fact_Product
+    join_type: inner
+    relationship_type: many_to_one
+    left_table: FCT_ORDER_SALES
+    relationship_columns:
+      - left_column: PRODUCT_KEY
+        right_column: PRODUCT_KEY
+    right_table: DIM_PRODUCT
